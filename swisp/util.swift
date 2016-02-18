@@ -2,7 +2,7 @@
 //  util.swift
 //  swisp
 //
-//  Created by Erin Compton on 2/16/16.
+//  Created by Bradley Compton on 2/16/16.
 //  Copyright © 2016 Bradley Compton. All rights reserved.
 //
 
