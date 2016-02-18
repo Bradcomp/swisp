@@ -8,24 +8,62 @@
 
 import Foundation
 
-public enum SwispToken {
-    case Float(Double)
-    case Integer(Int)
+public enum SwispToken: Hashable {
+    case Number(Double)
     case Symbol(String)
+    case Boolean(Bool)
+    case Func(String, [SwispToken] throws -> SwispToken)
     indirect case List([SwispToken])
+    
+    public func type() -> String {
+        switch self {
+        case .Number: return "Number"
+        case .Symbol: return "Symbol"
+        case .Boolean: return "Boolean"
+        case .Func: return "Function"
+        case .List: return "List"
+        }
+    }
+    
+    public func toString() -> String {
+        switch self {
+        case .Number(let v): return String(v)
+        case .Symbol(let v): return v
+        case .Boolean(let v): return v ? "true" : "false"
+        case .Func(let (t, _)): return t
+        case .List(let ls):
+            let inner = ls.map({st in return st.toString()}).joinWithSeparator(" ")
+            return "(\(inner))"
+        }
+    }
+    
+    public func isAtom() -> Bool {
+        switch self {
+        case .Boolean, .Number: return true
+        default: return false
+        }
+    }
+    
+    public func atomicValue() -> Any? {
+        switch self {
+        case .Boolean(let v): return v
+        case .Number(let v): return v
+        default: return nil
+        }
+    }
+    
+    public var hashValue: Int {
+        get {
+            return self.toString().hashValue
+        }
+    }
 }
 
 public func ==(a: SwispToken, b: SwispToken) -> Bool {
-    switch (a, b) {
-    case (.Float(let t1), .Float(let t2)): return t1 == t2
-    case (.Integer(let t1), .Integer(let t2)): return t1 == t2
-    case (.Symbol(let t1), .Symbol(let t2)): return t1 == t2
-    case (.List(let t1), .List(let t2)):
-        return t1.count == t2.count && all(zip(t1, b: t2)){ tuple in return tuple.0 == tuple.1 }
-    default: return false
-    }
+    return a.hashValue == b.hashValue
 }
 
 public func !=(a: SwispToken, b: SwispToken) -> Bool {
     return !(a == b)
 }
+

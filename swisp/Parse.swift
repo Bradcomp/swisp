@@ -49,7 +49,6 @@ func readFromTokens(inout tokens: [String]) throws -> SwispToken {
 }
 
 func atom(token: String) -> SwispToken {
-    if let tok = Int(token) { return SwispToken.Integer(tok) }
-    if let tok = Double(token) { return SwispToken.Float(tok) }
+    if let tok = Double(token) { return SwispToken.Number(tok) }
     return SwispToken.Symbol(token)
 }

@@ -21,12 +21,12 @@ class swisptests: XCTestCase {
     }
     
     func testToken() {
-        let tok = SwispToken.Integer(5)
-        let tok2 = SwispToken.Integer(5)
+        let tok = SwispToken.Number(5)
+        let tok2 = SwispToken.Number(5)
         
         let tok3 = SwispToken.List([tok, tok2])
         let tok4 = SwispToken.List([tok2, tok])
-        let tok5 = SwispToken.List([.Float(3.14), .Symbol("pi")])
+        let tok5 = SwispToken.List([.Number(3.14), .Symbol("pi")])
         XCTAssert(tok == tok2, "Integer Check")
         XCTAssert(tok != tok3, "Int v List")
         XCTAssert(tok3 == tok4, "Equal Lists")
@@ -39,11 +39,11 @@ class swisptests: XCTestCase {
             .Symbol("begin"),
             .List([
                 .Symbol("define"),
-                .Symbol("r"), .Integer(10)
+                .Symbol("r"), .Number(10)
                 ]),
             .List([
                 .Symbol("*"),
-                .Float(3.14),
+                .Number(3.14),
                 .List([
                     .Symbol("*"),
                     .Symbol("r"),
@@ -53,6 +53,13 @@ class swisptests: XCTestCase {
             ])
         XCTAssert(parse(code)! == result, "Parses an expression")
         XCTAssert(parse("(((a b c ))") == nil, "Returns nil for parse failure")
+    }
+    
+    func testEval() {
+        let env = Environment()
+        let result = try! env.eval(parse("(+ 2 3 (- 7 3))")!)
+        print(result.toString())
+        XCTAssert(result == SwispToken.Number(9.0), "Expected 9, got \(result.toString())")
     }
     
 }

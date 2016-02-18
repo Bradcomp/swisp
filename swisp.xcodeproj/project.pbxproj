@@ -19,6 +19,8 @@
 		972DA1021C743DC20067F255 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 972DA1001C743DC20067F255 /* Error.swift */; };
 		972DA1041C74488B0067F255 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 972DA1031C74488B0067F255 /* Environment.swift */; };
 		972DA1051C74488B0067F255 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 972DA1031C74488B0067F255 /* Environment.swift */; };
+		972DA1071C759E240067F255 /* functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 972DA1061C759E240067F255 /* functions.swift */; };
+		972DA1081C759E240067F255 /* functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 972DA1061C759E240067F255 /* functions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -44,6 +46,7 @@
 		972DA0FD1C74278B0067F255 /* util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = util.swift; sourceTree = "<group>"; };
 		972DA1001C743DC20067F255 /* Error.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		972DA1031C74488B0067F255 /* Environment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
+		972DA1061C759E240067F255 /* functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = functions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +94,7 @@
 				972DA0FD1C74278B0067F255 /* util.swift */,
 				972DA1001C743DC20067F255 /* Error.swift */,
 				972DA1031C74488B0067F255 /* Environment.swift */,
+				972DA1061C759E240067F255 /* functions.swift */,
 			);
 			path = swisp;
 			sourceTree = "<group>";
@@ -194,6 +198,7 @@
 			files = (
 				972DA0E51C73037B0067F255 /* main.swift in Sources */,
 				972DA1041C74488B0067F255 /* Environment.swift in Sources */,
+				972DA1071C759E240067F255 /* functions.swift in Sources */,
 				972DA0FB1C740BF60067F255 /* Parse.swift in Sources */,
 				972DA0F81C73056C0067F255 /* Token.swift in Sources */,
 				972DA1011C743DC20067F255 /* Error.swift in Sources */,
@@ -207,6 +212,7 @@
 			files = (
 				972DA0F21C7304570067F255 /* swisptests.swift in Sources */,
 				972DA1051C74488B0067F255 /* Environment.swift in Sources */,
+				972DA1081C759E240067F255 /* functions.swift in Sources */,
 				972DA0FC1C740BF60067F255 /* Parse.swift in Sources */,
 				972DA0F91C7307C00067F255 /* Token.swift in Sources */,
 				972DA1021C743DC20067F255 /* Error.swift in Sources */,
