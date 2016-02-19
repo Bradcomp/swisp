@@ -28,13 +28,13 @@ public enum SwispToken: Hashable, CustomStringConvertible {
     public var description: String {
         get {
             switch self {
-            case .Number(let v): return "Number: \(v)"
-            case .Symbol(let v): return "Symbol: \(v)"
-            case .Boolean(let v): return v ? "Boolean: true" : "Boolean: false"
+            case .Number(let v): return String(v)
+            case .Symbol(let v): return v
+            case .Boolean(let v): return v ? "true" : "false"
             case .Func(let (t, _)): return "Function: \(t)"
             case .List(let ls):
                 let inner = ls.map({st in return st.description}).joinWithSeparator(" ")
-                return "List: (\(inner))"
+                return "(\(inner))"
             }
 
         }
@@ -53,7 +53,7 @@ public enum SwispToken: Hashable, CustomStringConvertible {
     
     public var hashValue: Int {
         get {
-            return self.description.hashValue
+            return "\(self.type()):\(self.description)".hashValue
         }
     }
 }

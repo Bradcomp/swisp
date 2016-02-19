@@ -36,6 +36,13 @@ func divide(var args: [SwispToken]) throws -> SwispToken {
     return SwispToken.Number(result)
 }
 
+func abs(var args: [SwispToken]) throws -> SwispToken {
+    if (!checkArity(1, args: args)) { throw SwispError.RuntimeError(message: "Too many arguments") }
+    let initial = try getFirst(&args, msg: "Absolute value of non numeric")
+    if initial > 0 { return SwispToken.Number(initial) }
+    return SwispToken.Number(-initial)
+}
+
 func getFirst(inout args: [SwispToken], msg: String) throws -> Double {
     if !checkTypes("Number", args: args) { throw SwispError.RuntimeError(message: "Subtracting non-numeric values") }
     let initial = args.removeFirst().atomicValue() as! Double

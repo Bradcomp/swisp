@@ -13,7 +13,8 @@ class Environment: NSObject {
         .Symbol("+"): .Func("+", add),
         .Symbol("-"): .Func("-", subtract),
         .Symbol("*"): .Func("*", multiply),
-        .Symbol("/"): .Func("/", divide)
+        .Symbol("/"): .Func("/", divide),
+        .Symbol("abs"): .Func("abs", abs)
     ]
     let keywords = [
         "+", "-", "*", "/", "<", ">", "<=", ">=", "=",
@@ -38,7 +39,7 @@ class Environment: NSObject {
         let proc = l.removeFirst()
         //Now, handle special forms
         switch proc {
-        case .Symbol("quote"): return SwispToken.List(l)
+        case .Symbol("quote"): return l.removeFirst()
         case .Symbol("if"): return try swispIf(l[0], ifTrue: l[1], ifFalse: l[2])
         case .Symbol("define"):
             let val = try eval(l[1])
