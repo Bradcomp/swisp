@@ -8,15 +8,9 @@
 
 import Foundation
 
-public func parse(code: String) -> SwispToken? {
+public func parse(code: String) throws -> SwispToken {
     var tokens = tokenize(code)
-    let ast: SwispToken?
-    do {
-        ast = try readFromTokens(&tokens)
-    } catch SwispError.ParserError(let message) {
-        print(message)
-        ast = nil
-    } catch { ast = nil }
+    let ast = try readFromTokens(&tokens)
     return ast
 }
 

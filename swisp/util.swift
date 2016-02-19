@@ -30,3 +30,8 @@ public func any<T>(list: [T], pred: T -> Bool) -> Bool {
     }
     return false
 }
+func input() -> String {
+    let keyboard = NSFileHandle.fileHandleWithStandardInput()
+    let inputData = keyboard.availableData
+    return NSString(data: inputData, encoding:NSUTF8StringEncoding) as! String
+}

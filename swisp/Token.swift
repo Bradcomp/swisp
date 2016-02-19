@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum SwispToken: Hashable {
+public enum SwispToken: Hashable, CustomStringConvertible {
     case Number(Double)
     case Symbol(String)
     case Boolean(Bool)
@@ -25,36 +25,35 @@ public enum SwispToken: Hashable {
         }
     }
     
-    public func toString() -> String {
-        switch self {
-        case .Number(let v): return String(v)
-        case .Symbol(let v): return v
-        case .Boolean(let v): return v ? "true" : "false"
-        case .Func(let (t, _)): return t
-        case .List(let ls):
-            let inner = ls.map({st in return st.toString()}).joinWithSeparator(" ")
-            return "(\(inner))"
+    public var description: String {
+        get {
+            switch self {
+            case .Number(let v): return "Number: \(v)"
+            case .Symbol(let v): return "Symbol: \(v)"
+            case .Boolean(let v): return v ? "Boolean: true" : "Boolean: false"
+            case .Func(let (t, _)): return "Function: \(t)"
+            case .List(let ls):
+                let inner = ls.map({st in return st.description}).joinWithSeparator(" ")
+                return "List: (\(inner))"
+            }
+
         }
-    }
+            }
     
-    public func isAtom() -> Bool {
-        switch self {
-        case .Boolean, .Number: return true
-        default: return false
-        }
-    }
     
     public func atomicValue() -> Any? {
         switch self {
         case .Boolean(let v): return v
         case .Number(let v): return v
+        case .List(let v): return v
+        case .Func(let (_, f)): return f
         default: return nil
         }
     }
     
     public var hashValue: Int {
         get {
-            return self.toString().hashValue
+            return self.description.hashValue
         }
     }
 }

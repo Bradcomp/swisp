@@ -51,15 +51,25 @@ class swisptests: XCTestCase {
                     ])
                 ])
             ])
-        XCTAssert(parse(code)! == result, "Parses an expression")
-        XCTAssert(parse("(((a b c ))") == nil, "Returns nil for parse failure")
+        XCTAssert(try! parse(code) == result, "Parses an expression")
+        do {
+            try parse("(((a b c ))")
+        } catch SwispError.ParserError(let message) {
+            XCTAssert(message == "Unexpected EOF while Parsing")
+        } catch {
+            XCTAssert(true == false)
+        }
+        
     }
     
     func testEval() {
         let env = Environment()
-        let result = try! env.eval(parse("(+ 2 3 (- 7 3))")!)
-        print(result.toString())
-        XCTAssert(result == SwispToken.Number(9.0), "Expected 9, got \(result.toString())")
+        let result = try! env.eval(parse("(+ 2 3 (- 7 3))"))
+        print(result)
+        XCTAssert(result == SwispToken.Number(9.0), "Expected 9, got \(result)")
+        try! env.eval(try! parse("(define r 10)"))
+        let result2 = try! env.eval(try! parse("r"))
+        XCTAssert(result2 == SwispToken.Number(10.0), "Assignment")
     }
     
 }

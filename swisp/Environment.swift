@@ -11,7 +11,9 @@ import Cocoa
 class Environment: NSObject {
     var env: [SwispToken: SwispToken] = [
         .Symbol("+"): .Func("+", add),
-        .Symbol("-"): .Func("-", subtract)
+        .Symbol("-"): .Func("-", subtract),
+        .Symbol("*"): .Func("*", multiply),
+        .Symbol("/"): .Func("/", divide)
     ]
     let keywords = [
         "+", "-", "*", "/", "<", ">", "<=", ">=", "=",
@@ -26,7 +28,10 @@ class Environment: NSObject {
         //First, a destructuring switch to cover constants and variables
         //do {
         switch x {
-        case .Symbol: return env[x]!
+        case .Symbol:
+            let tok = env[x]
+            if tok == nil { throw SwispError.RuntimeError(message: "Unbound variable: \(x)")}
+            return tok!
         case .List(let ls): l = ls
         default: return x
         }
