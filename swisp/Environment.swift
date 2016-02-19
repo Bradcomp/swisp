@@ -14,7 +14,13 @@ class Environment: NSObject {
         .Symbol("-"): .Func("-", subtract),
         .Symbol("*"): .Func("*", multiply),
         .Symbol("/"): .Func("/", divide),
+        .Symbol(">"): .Func(">", gt),
+        .Symbol(">="): .Func(">=", gte),
+        .Symbol("<"): .Func("<", lt),
+        .Symbol("<="): .Func("<=", lte),
+        .Symbol("="): .Func("=", numEq),
         .Symbol("abs"): .Func("abs", abs)
+        
     ]
     let keywords = [
         "+", "-", "*", "/", "<", ">", "<=", ">=", "=",
@@ -27,7 +33,6 @@ class Environment: NSObject {
     internal func eval(x: SwispToken) throws -> SwispToken {
         var l: [SwispToken]
         //First, a destructuring switch to cover constants and variables
-        //do {
         switch x {
         case .Symbol:
             let tok = env[x]

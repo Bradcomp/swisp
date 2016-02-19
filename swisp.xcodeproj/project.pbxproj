@@ -23,6 +23,8 @@
 		972DA1081C759E240067F255 /* math.swift in Sources */ = {isa = PBXBuildFile; fileRef = 972DA1061C759E240067F255 /* math.swift */; };
 		9749736C1C76B57D00E47B3D /* helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9749736B1C76B57D00E47B3D /* helpers.swift */; };
 		9749736D1C76B57D00E47B3D /* helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9749736B1C76B57D00E47B3D /* helpers.swift */; };
+		974973721C76D92B00E47B3D /* booleans.swift in Sources */ = {isa = PBXBuildFile; fileRef = 974973711C76D92B00E47B3D /* booleans.swift */; };
+		974973731C76D92B00E47B3D /* booleans.swift in Sources */ = {isa = PBXBuildFile; fileRef = 974973711C76D92B00E47B3D /* booleans.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -50,6 +52,7 @@
 		972DA1031C74488B0067F255 /* Environment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		972DA1061C759E240067F255 /* math.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = math.swift; sourceTree = "<group>"; };
 		9749736B1C76B57D00E47B3D /* helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = helpers.swift; sourceTree = "<group>"; };
+		974973711C76D92B00E47B3D /* booleans.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = booleans.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +119,7 @@
 			children = (
 				972DA1061C759E240067F255 /* math.swift */,
 				9749736B1C76B57D00E47B3D /* helpers.swift */,
+				974973711C76D92B00E47B3D /* booleans.swift */,
 			);
 			name = functions;
 			sourceTree = "<group>";
@@ -211,6 +215,7 @@
 				972DA0E51C73037B0067F255 /* main.swift in Sources */,
 				972DA1041C74488B0067F255 /* Environment.swift in Sources */,
 				972DA1071C759E240067F255 /* math.swift in Sources */,
+				974973721C76D92B00E47B3D /* booleans.swift in Sources */,
 				9749736C1C76B57D00E47B3D /* helpers.swift in Sources */,
 				972DA0FB1C740BF60067F255 /* Parse.swift in Sources */,
 				972DA0F81C73056C0067F255 /* Token.swift in Sources */,
@@ -226,6 +231,7 @@
 				972DA0F21C7304570067F255 /* swisptests.swift in Sources */,
 				972DA1051C74488B0067F255 /* Environment.swift in Sources */,
 				972DA1081C759E240067F255 /* math.swift in Sources */,
+				974973731C76D92B00E47B3D /* booleans.swift in Sources */,
 				9749736D1C76B57D00E47B3D /* helpers.swift in Sources */,
 				972DA0FC1C740BF60067F255 /* Parse.swift in Sources */,
 				972DA0F91C7307C00067F255 /* Token.swift in Sources */,

@@ -15,3 +15,9 @@ func checkTypes(tp: String, args: [SwispToken]) -> Bool {
 func checkArity(arity: Int, args: [SwispToken]) -> Bool {
     return args.count == arity
 }
+
+func getFirstNumber(inout args: [SwispToken], msg: String) throws -> Double {
+    if !checkTypes("Number", args: args) { throw SwispError.RuntimeError(message: "Subtracting non-numeric values") }
+    let initial = args.removeFirst().atomicValue() as! Double
+    return initial
+}

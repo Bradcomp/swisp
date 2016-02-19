@@ -15,7 +15,7 @@ func repl() {
     while true {
         print(prompt, separator: "", terminator: " ")
         let inp = input()
-        if inp == "exit\n" { finish(); break }
+        if inp == "exit\n" { break }
         do {
             let expr = try parse(inp)
             let result = try env.eval(expr)
@@ -35,3 +35,4 @@ func finish() {
 }
 
 repl()
+exit(EXIT_SUCCESS)
