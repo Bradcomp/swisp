@@ -7,7 +7,11 @@
 //
 
 import Foundation
-
+/* TODO: Add support for strings and chars
+ * Quotes and quasiquotes
+ * Comments
+ * Dotted lists
+ * */
 public func parse(code: String) throws -> SwispToken {
     var tokens = tokenize(code)
     let ast = try readFromTokens(&tokens)

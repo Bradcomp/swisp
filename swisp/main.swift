@@ -8,7 +8,10 @@
 
 import Foundation
 
-
+/* TODO: Add a header to the repl
+ * Add support for file processing
+ * Add some help docs
+ * */
 func repl() {
     let prompt = "swisp >>"
     let env = Environment()

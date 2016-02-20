@@ -29,7 +29,11 @@ class Environment: NSObject {
         "map", "max", "min", "not", "null?", "number?",
         "procedure?", "round", "symbol?"
     ]
-    
+    /*TODO: Things not in the blog posts:
+     * and, or
+     * cond, let
+     * set-car! and set-cdr!
+     * */
     internal func eval(x: SwispToken) throws -> SwispToken {
         var l: [SwispToken]
         //First, a destructuring switch to cover constants and variables
