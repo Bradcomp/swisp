@@ -17,7 +17,7 @@ func repl() {
     let env = Environment()
     while true {
         print(prompt, separator: "", terminator: " ")
-        let inp = input()
+        guard let inp = input() else { continue }
         if inp == "exit\n" { break }
         do {
             let expr = try parse(inp)

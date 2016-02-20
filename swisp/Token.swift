@@ -30,7 +30,7 @@ public enum SwispToken: Hashable, CustomStringConvertible {
             switch self {
             case .Number(let v): return String(v)
             case .Symbol(let v): return v
-            case .Boolean(let v): return v ? "true" : "false"
+            case .Boolean(let v): return v ? "#t" : "#f"
             case .Func(let (t, _)): return "Function: \(t)"
             case .List(let ls):
                 let inner = ls.map({st in return st.description}).joinWithSeparator(" ")
