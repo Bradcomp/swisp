@@ -8,7 +8,7 @@
 
 import Foundation
 
-func checkTypes(tp: String, args: [SwispToken]) -> Bool {
+func checkTypes(tp: TokenType, args: [SwispToken]) -> Bool {
     return all(args, pred: { arg in return arg.type() == tp})
 }
 
@@ -17,7 +17,7 @@ func checkArity(arity: Int, args: [SwispToken]) -> Bool {
 }
 
 func getFirstNumber(inout args: [SwispToken], msg: String) throws -> Double {
-    if !checkTypes("Number", args: args) { throw SwispError.RuntimeError(message: msg) }
+    if !checkTypes(.Number, args: args) { throw SwispError.RuntimeError(message: msg) }
     let initial = args.removeFirst().atomicValue() as! Double
     return initial
 }

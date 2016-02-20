@@ -35,3 +35,9 @@ func input() -> String? {
     let inputData = keyboard.availableData
     return NSString(data: inputData, encoding:NSUTF8StringEncoding) as? String
 }
+
+extension Array {
+    var last: Element {
+        return self[self.endIndex - 1]
+    }
+}

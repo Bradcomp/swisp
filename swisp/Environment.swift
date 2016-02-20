@@ -21,7 +21,10 @@ class Environment: NSObject {
         .Symbol("="): .Func("=", numEq),
         .Symbol("abs"): .Func("abs", abs),
         .Symbol("append"): .Func("append", append),
-        .Symbol("apply"): .Func("apply", apply)
+        .Symbol("apply"): .Func("apply", apply),
+        .Symbol("begin"): .Func("begin", begin),
+        .Symbol("car"): .Func("car", car),
+        .Symbol("cdr"): .Func("cdr", cdr)
         
     ]
     let keywords = [

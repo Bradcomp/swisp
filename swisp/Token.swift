@@ -8,6 +8,10 @@
 
 import Foundation
 
+public enum TokenType {
+    case Number, Symbol, Boolean, Function, List
+}
+
 public enum SwispToken: Hashable, CustomStringConvertible {
     case Number(Double)
     case Symbol(String)
@@ -15,13 +19,13 @@ public enum SwispToken: Hashable, CustomStringConvertible {
     case Func(String, [SwispToken] throws -> SwispToken)
     indirect case List([SwispToken])
     
-    public func type() -> String {
+    public func type() -> TokenType {
         switch self {
-        case .Number: return "Number"
-        case .Symbol: return "Symbol"
-        case .Boolean: return "Boolean"
-        case .Func: return "Function"
-        case .List: return "List"
+        case .Number: return .Number
+        case .Symbol: return .Symbol
+        case .Boolean: return .Boolean
+        case .Func: return .Function
+        case .List: return .List
         }
     }
     

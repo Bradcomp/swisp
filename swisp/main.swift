@@ -18,9 +18,10 @@ func repl() {
     while true {
         print(prompt, separator: "", terminator: " ")
         guard let inp = input() else { continue }
-        if inp == "exit\n" { break }
+        let trimmedInput = inp.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        if trimmedInput == "exit" { break }
         do {
-            let expr = try parse(inp)
+            let expr = try parse(trimmedInput)
             let result = try env.eval(expr)
             print(result)
         } catch SwispError.ParserError(let message) {
