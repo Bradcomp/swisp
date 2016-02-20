@@ -24,13 +24,16 @@ class Environment: NSObject {
         .Symbol("apply"): .Func("apply", apply),
         .Symbol("begin"): .Func("begin", begin),
         .Symbol("car"): .Func("car", car),
-        .Symbol("cdr"): .Func("cdr", cdr)
+        .Symbol("cdr"): .Func("cdr", cdr),
+        .Symbol("cons"): .Func("cons", cons),
+        .Symbol("equal?"): .Func("equal?", equal),
+        .Symbol("length"): .Func("length", length)
         
     ]
     let keywords = [
         "+", "-", "*", "/", "<", ">", "<=", ">=", "=",
         "abs", "append", "apply", "begin", "car", "cdr",
-        "cons", "eq?", "equal?", "length", "list", "list?",
+        "cons", "equal?", "length", "list", "list?",
         "map", "max", "min", "not", "null?", "number?",
         "procedure?", "round", "symbol?"
     ]
@@ -66,7 +69,7 @@ class Environment: NSObject {
     }
     private func swispIf(test: SwispToken, ifTrue: SwispToken, ifFalse: SwispToken) throws -> SwispToken {
         let cond = try eval(test)
-        if cond == SwispToken.Boolean(true) { return try eval(ifTrue) }
+        if cond != SwispToken.Boolean(false) { return try eval(ifTrue) }
         return try eval(ifFalse)
     }
     

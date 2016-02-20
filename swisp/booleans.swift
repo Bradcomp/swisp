@@ -27,6 +27,13 @@ func lte(args: [SwispToken]) throws -> SwispToken {
 func numEq(args: [SwispToken]) throws -> SwispToken {
     return try compareNumbers(args) {(a, b) in return a == b }
 }
+/*
+ * Currently only implementing value equality.  No reference equality for now.
+ * */
+func equal(args: [SwispToken]) throws -> SwispToken {
+    if args.count < 2 { throw SwispError.RuntimeError(message: "Not enough arguments to equal?") }
+    return SwispToken.Boolean(all(args) { val in return val == args[0] })
+}
 
 func compareNumbers(var args: [SwispToken], pred: (Double, Double) -> Bool) throws -> SwispToken {
     var initial = try getFirstNumber(&args, msg: "Can't compare non-numeric values")
