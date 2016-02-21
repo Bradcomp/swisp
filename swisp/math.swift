@@ -43,5 +43,23 @@ func abs(var args: [SwispToken]) throws -> SwispToken {
     return SwispToken.Number(-initial)
 }
 
+func max(var args: [SwispToken]) throws -> SwispToken {
+    let initial = try getFirstNumber(&args, msg: "Invalid argument to max")
+    let result = args.reduce(initial) {(acc, val) in
+        let value = val.atomicValue() as! Double
+        return acc > value ? acc : value
+    }
+    return SwispToken.Number(result)
+}
+
+func min(var args: [SwispToken]) throws -> SwispToken {
+    let initial = try getFirstNumber(&args, msg: "Invalid argument to min")
+    let result = args.reduce(initial) {(acc, val) in
+        let value = val.atomicValue() as! Double
+        return acc < value ? acc : value
+    }
+    return SwispToken.Number(result)
+}
+
 
 

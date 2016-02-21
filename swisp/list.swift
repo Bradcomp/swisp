@@ -61,4 +61,16 @@ func length(args: [SwispToken]) throws -> SwispToken {
     }
 }
 
+func list(args: [SwispToken]) throws -> SwispToken {
+    return SwispToken.List(args)
+}
+
+func map(args: [SwispToken]) throws -> SwispToken {
+    if !checkArity(2, args: args) { throw SwispError.RuntimeError(message: "map called with the wrong number of arguments") }
+    switch (args[0], args[1]) {
+    case (.Func(let (_, fun)), .List(let ls)): return try SwispToken.List(ls.map { tok in return try fun([tok]) })
+    default:  throw SwispError.RuntimeError(message: "map called with invalid arguments")
+    }
+}
+
 

@@ -27,8 +27,12 @@ class Environment: NSObject {
         .Symbol("cdr"): .Func("cdr", cdr),
         .Symbol("cons"): .Func("cons", cons),
         .Symbol("equal?"): .Func("equal?", equal),
-        .Symbol("length"): .Func("length", length)
-        
+        .Symbol("length"): .Func("length", length),
+        .Symbol("list"): .Func("list", list),
+        .Symbol("list?"): .Func("list?", isList),
+        .Symbol("map"): .Func("map", map),
+        .Symbol("max"): .Func("max", max),
+        .Symbol("min"): .Func("min", min)
     ]
     let keywords = [
         "+", "-", "*", "/", "<", ">", "<=", ">=", "=",
