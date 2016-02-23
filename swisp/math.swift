@@ -48,7 +48,7 @@ func max(var args: [SwispToken]) throws -> SwispToken {
     let result = args.reduce(initial) {(acc, val) in
         let value = val.atomicValue() as! Double
         return acc > value ? acc : value
-    }
+    } 
     return SwispToken.Number(result)
 }
 

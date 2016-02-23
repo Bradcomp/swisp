@@ -39,6 +39,11 @@ func isList(args: [SwispToken]) throws -> SwispToken {
     if !checkArity(1, args: args) { throw SwispError.RuntimeError(message: "Too many arguments to list?") }
     return SwispToken.Boolean(args[0].type() == .List)
 }
+
+func not(args: [SwispToken]) throws -> SwispToken{
+    if !checkArity(1, args: args) { throw SwispError.RuntimeError(message: "Too many arguments to not") }
+    return args[0] == SwispToken.Boolean(false) ? SwispToken.Boolean(true) : SwispToken.Boolean(false)
+}
  
 func compareNumbers(var args: [SwispToken], pred: (Double, Double) -> Bool) throws -> SwispToken {
     var initial = try getFirstNumber(&args, msg: "Can't compare non-numeric values")

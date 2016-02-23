@@ -32,7 +32,8 @@ class Environment: NSObject {
         .Symbol("list?"): .Func("list?", isList),
         .Symbol("map"): .Func("map", map),
         .Symbol("max"): .Func("max", max),
-        .Symbol("min"): .Func("min", min)
+        .Symbol("min"): .Func("min", min),
+        .Symbol("not"): .Func("not", not)
     ]
     let keywords = [
         "+", "-", "*", "/", "<", ">", "<=", ">=", "=",
@@ -41,11 +42,6 @@ class Environment: NSObject {
         "map", "max", "min", "not", "null?", "number?",
         "procedure?", "round", "symbol?"
     ]
-    /*TODO: Things not in the blog posts:
-     * and, or
-     * cond, let
-     * set-car! and set-cdr!
-     * */
     internal func eval(x: SwispToken) throws -> SwispToken {
         var l: [SwispToken]
         //First, a destructuring switch to cover constants and variables
@@ -62,6 +58,8 @@ class Environment: NSObject {
         switch proc {
         case .Symbol("quote"): return l.removeFirst()
         case .Symbol("if"): return try swispIf(l[0], ifTrue: l[1], ifFalse: l[2])
+        case .Symbol("and"): return try and(l)
+        case .Symbol("or"): return try or(l)
         case .Symbol("define"):
             let val = try eval(l[1])
             env[l[0]] = val
@@ -75,6 +73,24 @@ class Environment: NSObject {
         let cond = try eval(test)
         if cond != SwispToken.Boolean(false) { return try eval(ifTrue) }
         return try eval(ifFalse)
+    }
+    
+    private func and(args: [SwispToken]) throws -> SwispToken {
+        var result = SwispToken.Boolean(true)
+        for val in args {
+            result = try eval(val)
+            if result == SwispToken.Boolean(false) { break }
+        }
+        return result
+    }
+    
+    private func or(args: [SwispToken]) throws -> SwispToken {
+        var result = SwispToken.Boolean(false)
+        for val in args {
+            result = try eval(val)
+            if result != SwispToken.Boolean(false) { break }
+        }
+        return result
     }
     
     private func applyFunction(f: SwispToken, args: [SwispToken]) throws -> SwispToken {
