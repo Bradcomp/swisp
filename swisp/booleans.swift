@@ -27,6 +27,7 @@ func lte(args: [SwispToken]) throws -> SwispToken {
 func numEq(args: [SwispToken]) throws -> SwispToken {
     return try compareNumbers(args) {(a, b) in return a == b }
 }
+
 /*
  * Currently only implementing value equality.  No reference equality for now.
  * */
@@ -35,9 +36,29 @@ func equal(args: [SwispToken]) throws -> SwispToken {
     return SwispToken.Boolean(all(args) { val in return val == args[0] })
 }
 
+func isNull(args: [SwispToken]) throws -> SwispToken {
+    if !checkArity(1, args: args) { throw SwispError.RuntimeError(message: "Too many arguments to null?") }
+    return SwispToken.Boolean(args[0] == SwispToken.List([]))
+}
+
 func isList(args: [SwispToken]) throws -> SwispToken {
-    if !checkArity(1, args: args) { throw SwispError.RuntimeError(message: "Too many arguments to list?") }
-    return SwispToken.Boolean(args[0].type() == .List)
+    return try isType(.List, args: args)
+}
+
+func isBoolean(args: [SwispToken]) throws -> SwispToken {
+    return try isType(.Boolean, args: args)
+}
+
+func isNumber(args: [SwispToken]) throws -> SwispToken {
+    return try isType(.Number, args: args)
+}
+
+func isProcedure(args: [SwispToken]) throws -> SwispToken {
+    return try isType(.Function, args: args)
+}
+
+func isSymbol(args: [SwispToken]) throws -> SwispToken {
+    return try isType(.Symbol, args: args)
 }
 
 func not(args: [SwispToken]) throws -> SwispToken{
@@ -53,5 +74,9 @@ func compareNumbers(var args: [SwispToken], pred: (Double, Double) -> Bool) thro
         initial = next
     }
     return SwispToken.Boolean(true)
+}
 
+func isType(tp: TokenType, args: [SwispToken]) throws -> SwispToken {
+    if !checkArity(1, args: args) { throw SwispError.RuntimeError(message: "Too many arguments") }
+    return SwispToken.Boolean(args[0].type() == tp)
 }

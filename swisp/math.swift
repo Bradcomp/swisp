@@ -61,5 +61,13 @@ func min(var args: [SwispToken]) throws -> SwispToken {
     return SwispToken.Number(result)
 }
 
+func round(var args: [SwispToken]) throws -> SwispToken {
+    if (!checkArity(1, args: args)) { throw SwispError.RuntimeError(message: "Too many arguments") }
+    let initial = try getFirstNumber(&args, msg: "Rounding of non numeric")
+    return SwispToken.Number(Double(round(initial)))
+}
+
+
+
 
 

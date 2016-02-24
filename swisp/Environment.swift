@@ -23,6 +23,7 @@ class Environment: NSObject {
         .Symbol("append"): .Func("append", append),
         .Symbol("apply"): .Func("apply", apply),
         .Symbol("begin"): .Func("begin", begin),
+        .Symbol("boolean?"): .Func("boolean?", isBoolean),
         .Symbol("car"): .Func("car", car),
         .Symbol("cdr"): .Func("cdr", cdr),
         .Symbol("cons"): .Func("cons", cons),
@@ -33,15 +34,14 @@ class Environment: NSObject {
         .Symbol("map"): .Func("map", map),
         .Symbol("max"): .Func("max", max),
         .Symbol("min"): .Func("min", min),
-        .Symbol("not"): .Func("not", not)
+        .Symbol("not"): .Func("not", not),
+        .Symbol("null?"): .Func("null?", isNull),
+        .Symbol("number?"): .Func("number?", isNumber),
+        .Symbol("procedure?"): .Func("procedure?", isProcedure),
+        .Symbol("round"): .Func("round", round),
+        .Symbol("symbol?"): .Func("symbol?", isSymbol)
     ]
-    let keywords = [
-        "+", "-", "*", "/", "<", ">", "<=", ">=", "=",
-        "abs", "append", "apply", "begin", "car", "cdr",
-        "cons", "equal?", "length", "list", "list?",
-        "map", "max", "min", "not", "null?", "number?",
-        "procedure?", "round", "symbol?"
-    ]
+
     internal func eval(x: SwispToken) throws -> SwispToken {
         var l: [SwispToken]
         //First, a destructuring switch to cover constants and variables
