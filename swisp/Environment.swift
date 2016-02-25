@@ -9,47 +9,18 @@
 import Cocoa
 
 class Environment: NSObject {
-    var env: [SwispToken: SwispToken] = [
-        .Symbol("+"): .Func("+", add),
-        .Symbol("-"): .Func("-", subtract),
-        .Symbol("*"): .Func("*", multiply),
-        .Symbol("/"): .Func("/", divide),
-        .Symbol(">"): .Func(">", gt),
-        .Symbol(">="): .Func(">=", gte),
-        .Symbol("<"): .Func("<", lt),
-        .Symbol("<="): .Func("<=", lte),
-        .Symbol("="): .Func("=", numEq),
-        .Symbol("abs"): .Func("abs", abs),
-        .Symbol("append"): .Func("append", append),
-        .Symbol("apply"): .Func("apply", apply),
-        .Symbol("begin"): .Func("begin", begin),
-        .Symbol("boolean?"): .Func("boolean?", isBoolean),
-        .Symbol("car"): .Func("car", car),
-        .Symbol("cdr"): .Func("cdr", cdr),
-        .Symbol("cons"): .Func("cons", cons),
-        .Symbol("equal?"): .Func("equal?", equal),
-        .Symbol("length"): .Func("length", length),
-        .Symbol("list"): .Func("list", list),
-        .Symbol("list?"): .Func("list?", isList),
-        .Symbol("map"): .Func("map", map),
-        .Symbol("max"): .Func("max", max),
-        .Symbol("min"): .Func("min", min),
-        .Symbol("not"): .Func("not", not),
-        .Symbol("null?"): .Func("null?", isNull),
-        .Symbol("number?"): .Func("number?", isNumber),
-        .Symbol("procedure?"): .Func("procedure?", isProcedure),
-        .Symbol("round"): .Func("round", round),
-        .Symbol("symbol?"): .Func("symbol?", isSymbol)
-    ]
-
+    var env: [SwispToken: SwispToken]
+    var parent: Environment?
+    init(env: [SwispToken: SwispToken], parent: Environment?) {
+        self.env = env
+        self.parent = parent
+    }
     internal func eval(x: SwispToken) throws -> SwispToken {
         var l: [SwispToken]
         //First, a destructuring switch to cover constants and variables
         switch x {
         case .Symbol:
-            let tok = env[x]
-            if tok == nil { throw SwispError.RuntimeError(message: "Unbound variable: \(x)")}
-            return tok!
+            return try lookup(x)
         case .List(let ls): l = ls
         default: return x
         }
@@ -69,6 +40,12 @@ class Environment: NSObject {
         return try applyFunction(proc, args: l)
         
     }
+    private func lookup(key: SwispToken) throws -> SwispToken {
+        if let tok = env[key] { return tok }
+        guard let p = parent else { throw SwispError.RuntimeError(message: "Unbound variable \(key)") }
+        return try p.lookup(key)
+    }
+    
     private func swispIf(test: SwispToken, ifTrue: SwispToken, ifFalse: SwispToken) throws -> SwispToken {
         let cond = try eval(test)
         if cond != SwispToken.Boolean(false) { return try eval(ifTrue) }

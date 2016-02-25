@@ -14,7 +14,7 @@ import Foundation
  * */
 func repl() {
     let prompt = "swisp >>"
-    let env = Environment()
+    let env = Environment(env: globalEnv, parent: nil)
     while true {
         print(prompt, separator: "", terminator: " ")
         guard let inp = input() else { continue }
