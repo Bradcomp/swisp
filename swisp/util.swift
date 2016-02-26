@@ -17,6 +17,15 @@ public func zip<T, U>(a: [T], b: [U]) -> [(T, U)] {
     return result
 }
 
+public func zipDict<T, U>(a: [T], b: [U]) -> [T: U] {
+    let minCount = a.count < b.count ? a.count : b.count;
+    var result = [T: U]()
+    for i in 0 ..< minCount {
+        result[a[i]] = b[i]
+    }
+    return result
+}
+
 public func all<T>(list: [T], pred: T-> Bool) -> Bool {
     for elem in list {
         if !pred(elem) { return false }

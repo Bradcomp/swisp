@@ -63,7 +63,7 @@ class swisptests: XCTestCase {
     }
     
     func testEval() {
-        let env = Environment()
+        let env = Environment(env: globalEnv, parent: nil)
         let result = try! env.eval(parse("(+ 2 3 (- 7 3))"))
         print(result)
         XCTAssert(result == SwispToken.Number(9.0), "Expected 9, got \(result)")

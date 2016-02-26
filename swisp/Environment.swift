@@ -15,6 +15,7 @@ class Environment: NSObject {
         self.env = env
         self.parent = parent
     }
+    
     internal func eval(x: SwispToken) throws -> SwispToken {
         var l: [SwispToken]
         //First, a destructuring switch to cover constants and variables
@@ -28,6 +29,7 @@ class Environment: NSObject {
         //Now, handle special forms
         switch proc {
         case .Symbol("quote"): return l.removeFirst()
+        case .Symbol("lambda"): return try makeUDF(l)
         case .Symbol("if"): return try swispIf(l[0], ifTrue: l[1], ifFalse: l[2])
         case .Symbol("and"): return try and(l)
         case .Symbol("or"): return try or(l)
@@ -44,6 +46,24 @@ class Environment: NSObject {
         if let tok = env[key] { return tok }
         guard let p = parent else { throw SwispError.RuntimeError(message: "Unbound variable \(key)") }
         return try p.lookup(key)
+    }
+    
+    private func makeUDF(args: [SwispToken]) throws -> SwispToken {
+        if args.count != 2 { throw SwispError.RuntimeError(message: "Invalid function definition") }
+        var params: [SwispToken]
+        switch args[0] {
+        case .List(let p): params = p
+        case .Symbol: params = [args[0]]
+        default: throw SwispError.RuntimeError(message: "Invalid param list for function")
+        }
+        let body = args[1]
+        return SwispToken.Func("lambda") { (args: [SwispToken]) throws -> SwispToken in
+            if args.count != params.count { throw SwispError.RuntimeError(message: "Invalid number of arguments to function") }
+            let nextEnv = zipDict(params, b: args)
+            let nextLevel = Environment(env: nextEnv, parent: self)
+            return try nextLevel.eval(body)
+        }
+        
     }
     
     private func swispIf(test: SwispToken, ifTrue: SwispToken, ifFalse: SwispToken) throws -> SwispToken {
