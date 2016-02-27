@@ -37,9 +37,7 @@ class Environment: NSObject {
             let val = try eval(l[1])
             return try set(l[0], val: val)
         case .Symbol("define"):
-            let val = try eval(l[1])
-            env[l[0]] = val
-            return val
+            return try defineVar(l[0], val: l[1])
         default: break
         }
         return try applyFunction(proc, args: l)
@@ -49,15 +47,6 @@ class Environment: NSObject {
         if let tok = env[key] { return tok }
         guard let p = parent else { throw SwispError.RuntimeError(message: "Unbound variable \(key)") }
         return try p.lookup(key)
-    }
-    
-    private func set(key: SwispToken, val: SwispToken) throws -> SwispToken {
-        if let _ = env[key] {
-            env[key] = val
-            return val
-        }
-        guard let p = parent else { throw SwispError.RuntimeError(message: "Unbound environment variable \(key)") }
-        return try p.set(key, val: val)
     }
     
     private func makeUDF(args: [SwispToken]) throws -> SwispToken {
@@ -100,6 +89,31 @@ class Environment: NSObject {
             if result != SwispToken.Boolean(false) { break }
         }
         return result
+    }
+    
+    
+    private func set(key: SwispToken, val: SwispToken) throws -> SwispToken {
+        if let _ = env[key] {
+            env[key] = val
+            return val
+        }
+        guard let p = parent else { throw SwispError.RuntimeError(message: "Unbound environment variable \(key)") }
+        return try p.set(key, val: val)
+    }
+    private func defineVar(key: SwispToken, val: SwispToken) throws -> SwispToken {
+        switch key {
+        case SwispToken.List(var l):
+            let name = l.removeFirst()
+            let params = l.removeFirst()
+            let udf = try makeUDF([params, val])
+            env[name] = udf
+            return udf
+        case .Symbol:
+            let value = try eval(val)
+            env[key] = value
+            return value
+        default: throw SwispError.RuntimeError(message: "Redefining literal \(key)")
+        }
     }
     
     private func applyFunction(f: SwispToken, args: [SwispToken]) throws -> SwispToken {
