@@ -33,6 +33,9 @@ class Environment: NSObject {
         case .Symbol("if"): return try swispIf(l[0], ifTrue: l[1], ifFalse: l[2])
         case .Symbol("and"): return try and(l)
         case .Symbol("or"): return try or(l)
+        case .Symbol("set!"):
+            let val = try eval(l[1])
+            return try set(l[0], val: val)
         case .Symbol("define"):
             let val = try eval(l[1])
             env[l[0]] = val
@@ -46,6 +49,15 @@ class Environment: NSObject {
         if let tok = env[key] { return tok }
         guard let p = parent else { throw SwispError.RuntimeError(message: "Unbound variable \(key)") }
         return try p.lookup(key)
+    }
+    
+    private func set(key: SwispToken, val: SwispToken) throws -> SwispToken {
+        if let _ = env[key] {
+            env[key] = val
+            return val
+        }
+        guard let p = parent else { throw SwispError.RuntimeError(message: "Unbound environment variable \(key)") }
+        return try p.set(key, val: val)
     }
     
     private func makeUDF(args: [SwispToken]) throws -> SwispToken {
